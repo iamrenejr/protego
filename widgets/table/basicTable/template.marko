@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>${data.title}</title>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/style/widget/${data.format}/${data.type}"/>
+	</head>
+	<body>
+
+		<table class="table-minimal">
+			<thead>
+				<tr>
+					<th>Queue</th>
+					<th>Size</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr for="team in data.tableTeamData">
+					<td>${team}</td>
+					<td>31</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</body>
+</html>

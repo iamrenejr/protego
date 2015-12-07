@@ -1,8 +1,11 @@
 require 'sugar'
+fs = require 'fs'
 del = require 'del'
 docco = require 'docco'
 globby = require 'globby'
 Promise = require 'bluebird'
+coffeeify = require 'coffeeify'
+browserify = require 'browserify'
 {exec, spawn} = require 'child_process'
 {watch} = require 'chokidar'
 {files} = require 'node-dir'
@@ -37,6 +40,21 @@ task 'docs', 'Create documentation for the source code', ->
 		console.log 'ERROR! Could not generate documents'
 		console.log error
 
+task 'scss', 'Compile SCSS into SASS', ->
+	globby ['layouts/**/style.scss', 'widgets/**/style.scss']
+	.then (paths) ->
+		for path in paths
+			pathDir = dirname path
+			sass_cmd = "sass #{path}:#{pathDir}#{sep}style.css"
+			console.log sass_cmd
+			exec sass_cmd, (error, a, b) ->
+				throw error if error?
+				console.log a
+				console.log b
+	.catch (error) ->
+		console.log 'ERROR! Could not generate documents'
+		console.log error
+
 task 'clean', 'Reset the database and clear out files', ->
 	del ['db/*', '!db/.gitkeep', 'wsdl/*', '!wsdl/.gitkeep']
 	.then (paths) ->
@@ -50,5 +68,5 @@ task 'watch', 'Reset the server on file change', ->
 	reboot = (path) ->
 		console.log "Change detected in #{path}"
 		server = spinServer server
-	eyes = watch ['server.coffee']
+	eyes = watch ['server.coffee', 'layouts/**']
 	eyes.on 'change', (path) -> reboot 'server.coffee'

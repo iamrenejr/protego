@@ -1,0 +1,26 @@
+@mixin fontStyle ($fSize) {
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	color: white;
+	font-size: $fSize;
+}
+
+#body {
+	background-color: #00CD2D;
+	overflow: hidden;
+
+	#header {
+		@include fontStyle(5vw);
+		font-style: oblique;
+	}
+
+	#data {
+		@include fontStyle(20vw);
+		font-weight: bold;
+		line-height: 120%;
+	}
+
+	#units {
+		@include fontStyle(6vw);
+		line-height: 10%;
+	}
+}

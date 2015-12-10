@@ -90,6 +90,28 @@ server.get '/style/widget/:format/:type', (rq, rs, nx) ->
 	.catch (error) -> rs.write '{"error": "Error occurred"}'
 	.finally -> rs.end()
 
+server.get '/script/widget/:format/:type', (rq, rs, nx) ->
+	rs.writeHead 200, {"Content-Type": "text/js"}
+	{format, type} = rq.params
+
+	jsFile = fs.createReadStream resolve process.cwd(), 'widgets', format, type, 'index.js'
+	jsFile.pipe rs
+
+# World
+server.get '/world', (rq, rs, nx) ->
+	rs.writeHead 200, {"Content-Type": "text/html"}
+
+	mapFile = fs.createReadStream resolve process.cwd(), 'world', 'world.json'
+	mapFile.pipe rs
+
+# Get vendor
+server.get '/vendor/:name', (rq, rs, nx) ->
+	rs.writeHead 200, {"Content-Type": "text/js"}
+	{name} = rq.params
+
+	jsFile = fs.createReadStream resolve process.cwd(), 'vendor', name, "#{name}.min.js"
+	jsFile.pipe rs
+
 # Adapter setup here
 # Placeholder
 # Placeholder

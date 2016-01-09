@@ -80,37 +80,10 @@ server.get '/widget/:format/:type/:name', (rq, rs, nx) ->
 		tableTeamData: ['VBlock', 'DBA', 'Tools', 'UNIX', 'Wintel', 'BFS', 'CAF']
 	, rs
 
-server.get '/style/widget/:format/:type', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/css"}
-	{format, type} = rq.params
-
-	cssFile = resolve process.cwd(), 'widgets', format, type, 'style.css'
-	readFile cssFile
-	.then (contents) -> rs.write contents
-	.catch (error) -> rs.write '{"error": "Error occurred"}'
-	.finally -> rs.end()
-
-server.get '/script/widget/:format/:type', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/js"}
-	{format, type} = rq.params
-
-	jsFile = fs.createReadStream resolve process.cwd(), 'widgets', format, type, 'index.js'
-	jsFile.pipe rs
-
-# World
-server.get '/world', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/html"}
-
-	mapFile = fs.createReadStream resolve process.cwd(), 'world', 'world.json'
-	mapFile.pipe rs
-
-# Get vendor
-server.get '/vendor/:name', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/js"}
-	{name} = rq.params
-
-	jsFile = fs.createReadStream resolve process.cwd(), 'vendor', name, "#{name}.min.js"
-	jsFile.pipe rs
+# Serve JS, CSS, and JSON
+server.get '/script', (args...) -> routes.utils.serveJS args
+server.get '/style', (args...) -> routes.utils.serveCSS args
+server.get '/data/:name', (args...) -> routes.utils.serveJSON args
 
 # Adapter setup here
 # Placeholder

@@ -1,0 +1,72 @@
+.loaders-container {
+	@include size(100% 100%);
+	margin: 0 auto;
+	text-align: center;
+
+	.container {
+		display: inline-block;
+	}
+
+	.line1, .line2, .line3, .line4 {
+		width: 50px;
+		height: 4px;
+		background: rgba(21,171,195,1.0);
+		animation: spin 1.5s infinite ease;
+	}
+
+	.line2 {
+		animation-delay: 0.1s;
+	}
+
+	.line3 {
+		animation-delay: 0.2s;
+	}
+
+	.line4 {
+		animation-delay: 0.3s;
+	}
+}
+
+.TronTable {
+	@include padding(0.5%);
+
+	.TronHeader {
+		@include size(100% 10%);
+		@include padding(0.5%);
+		font-size: 1.5em;
+		border-top: 3px solid rgba(21,171,195,1.0);
+		border-bottom: thick double rgba(21,171,195,1.0);
+	}
+
+	.TronBody {
+		@include outer-container;
+
+		.TronStatusWidget {
+			@include span-columns(3);
+			@include omega(4n);
+			border: 1px solid #eee;
+			border-radius: 5px;
+			height: 100%;
+
+			.loaders-container {
+				@include span-columns(4);
+				height: 100%;
+				border-right: 1px solid #eee;
+			}
+
+			.tronStatusInfo {
+				@include span-columns(8);
+
+				.tronTeamName {
+
+				}
+			}
+		}
+	}
+}
+
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}

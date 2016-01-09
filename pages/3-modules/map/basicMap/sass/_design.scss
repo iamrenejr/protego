@@ -1,0 +1,37 @@
+.widgetBorder {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+}
+
+* {
+	cursor: crosshair;
+}
+
+body {
+	background: black;
+	color: rgba(21,171,195,1.0);
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	/* give all text a cold glow */
+	text-shadow: 0 0 5px rgba(21,171,195,0.7);
+
+	path {
+		fill: rgba(21,171,195,1.0);
+	}
+
+	line {
+		stroke: #c7141a;
+	}
+
+	circle {
+		stroke: #c7141a;
+	}
+
+	.subunit-boundary {
+		fill: none;
+		stroke: black;
+		stroke-width: 1;
+	}
+}

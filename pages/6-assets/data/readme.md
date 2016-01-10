@@ -10,9 +10,9 @@ ogr2ogr -f GeoJSON places.json ne_10m_populated_places.shp
 # Create subunits.json
 #---------------------
 cd C:\Users\joren\Downloads\ne_10m_admin_0_map_subunits
-ogr2ogr -f GeoJSON subunits.json ne_10m_admin_0_map_subunits.shp
+ogr2ogr -f GeoJSON -where "ADM0_A3 != 'ATA'" subunits.json ne_10m_admin_0_map_subunits.shp
 
 # Merge places.json and subunits.json
 #------------------------------------
-cd /c/Users/joren/Documents/GitHub/protego/vendor
+cd /c/Users/joren/Documents/GitHub/protego/pages/0-vendor/topojson
 topojson -o world.json --id-property SU_A3 --properties name=NAME -- subunits.json places.json

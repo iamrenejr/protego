@@ -538,4 +538,95 @@ td,
 th {
   padding: 0; }
 
+* {
+  cursor: crosshair; }
+
+html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  padding: 0;
+  margin: 0;
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto; }
+  body::after {
+    clear: both;
+    content: "";
+    display: table; }
+
+section {
+  float: left;
+  display: block;
+  margin-right: 0.45365%;
+  width: 100%;
+  margin-right: 0; }
+  section:last-child {
+    margin-right: 0; }
+
+iframe {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0; }
+
+html {
+  background: black;
+  color: #15abc3;
+  font-family: "Bitstream Vera Sans Mono", monospace;
+  /* give all text a cold glow */
+  text-shadow: 0 0 5px rgba(21, 171, 195, 0.7); }
+
+header {
+  float: left;
+  display: block;
+  margin-right: 0.45365%;
+  width: 100%;
+  height: 10%; }
+  header:last-child {
+    margin-right: 0; }
+
+.primarycontent {
+  float: left;
+  display: block;
+  margin-right: 0.45365%;
+  width: 58.14431%;
+  height: 80%; }
+  .primarycontent:last-child {
+    margin-right: 0; }
+
+.panicMap {
+  height: 60%; }
+
+.panicAssets {
+  height: 40%; }
+
+.secondarycontent {
+  float: left;
+  display: block;
+  margin-right: 0.45365%;
+  width: 41.40204%;
+  height: 80%; }
+  .secondarycontent:last-child {
+    margin-right: 0; }
+
+.panicTickers {
+  height: 50%; }
+
+.panicGraphs {
+  height: 50%; }
+
+footer {
+  float: left;
+  display: block;
+  margin-right: 0.45365%;
+  width: 100%;
+  height: 10%; }
+  footer:last-child {
+    margin-right: 0; }
+
 /*# sourceMappingURL=styles.css.map */

@@ -4,10 +4,10 @@ d3 = require 'd3'
 oboe = require 'oboe'
 {resolve} = require 'path'
 
-redAreas = require './coffee/mockData.coffee'
-beepCircle = require './coffee/beepCircle.coffee'
-moveLine = require './coffee/moveLine.coffee'
-render = require './coffee/render.coffee'
+redAreas = require './mockData'
+beepCircle = require './beepCircle'
+moveLine = require './moveLine'
+render = require './render'
 	
 animate = (projection, duration) ->
 	console.log 'Triggering animations'
@@ -15,7 +15,7 @@ animate = (projection, duration) ->
 	(-> data = redAreas()).every 30000
 	(-> 
 		beepCircle data, projection, duration
-		moveLine 'mapContainer', duration
+		#moveLine 'mapContainer', duration
 	).every duration
 
 createBasicMap = (projection) ->
@@ -29,7 +29,8 @@ createBasicMap = (projection) ->
 	.translate [width/2, height/2]
 
 	oboe '/data/world'
-	.done (world) -> render 'mapContainer', world, projection
+	.done (world) ->
+		render 'mapContainer', world, projection
 
 $ ->
 	if $('#basicMap').length

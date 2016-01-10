@@ -1,0 +1,4 @@
+footer {
+  @include span-columns(12);
+  @include size(null 10%);
+}

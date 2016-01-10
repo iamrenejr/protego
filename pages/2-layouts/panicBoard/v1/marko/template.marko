@@ -1,0 +1,39 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<title>Panic Board</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="/layouts/${data.name}/v1/css">
+	</head>
+	<body>
+		<section>
+			<header>
+				<iframe src="/widgets/${data.header}/html"/>
+			</header>
+		</section>
+		<section>
+			<div class="primarycontent">
+				<div class="panicMap widget map highlight">
+					<iframe src="/widgets/${data.primary}/html"/>
+				</div>
+				<div class="panicAssets widget table">
+					<iframe src="/widgets/${data.secondary}"/>
+				</div>
+			</div>
+			<div class="secondarycontent">
+				<div class="panicTickers widget table">
+					<iframe src="/widgets/${data.tertiary}"/>
+				</div>
+				<div class="panicGraphs widget table">
+					<iframe src="/widgets/${data.quaternary}"/>
+				</div>
+			</div>
+		</section>
+		<section>
+			<footer>
+				<iframe src="/widgets/${data.footer}"/>
+			</footer>
+		</section>
+		<script type="text/javascript" src="/layouts/${data.name}/v1/js"></script>
+	</body>
+</html>

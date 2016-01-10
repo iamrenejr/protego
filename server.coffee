@@ -34,55 +34,19 @@ server.pre restify.pre.sanitizePath()
 server.use restify.CORS()
 server.use restify.fullResponse()
 
-# Define REST API: dashboard
-server.get '/page/:name', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/html"}
-	{name} = rq.params
+# Serve widgets
+server.get '/widgets/:format/:name/:type', (args...) -> routes.utils.serveWidgets args
 
-	data =
-		layout: 'basicDashboard'
-		version: 1
+# Serve layout CSS and JS
+server.get '/layouts/:name/:ver/:type', (args...) -> routes.utils.serveLayouts args
 
-	template = resolve process.cwd(), 'layouts', data.layout, "v#{data.version}", 'template.marko'
-	view  = require template
-	view.render
-		name: name
-		title: "Dashboard: #{name}"
-		version: data.version
-		layout: data.layout
-		topRowWidgets: ['Total IMP1s', 'Unassigned IMP1s', 'Total IMP2s']
-		bottomRowWidget: ['test4', 'test5']
-	, rs
+# Serve dashboards
+server.get
+	path: '/:name'
+	version: '1.0.0'
+, (args...) -> routes.utils.serveDashboards args, 'v1'
 
-# Define REST API: layout
-server.get '/style/:layout/:version', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/css"}
-	{layout, version} = rq.params
-
-	cssFile = resolve process.cwd(), 'layouts', layout, version, 'style.css'
-	readFile cssFile
-	.then (contents) -> rs.write contents
-	.catch (error) -> rs.write '{"error": "Error occurred"}'
-	.finally -> rs.end()
-
-# Define REST API: widget
-server.get '/widget/:format/:type/:name', (rq, rs, nx) ->
-	rs.writeHead 200, {"Content-Type": "text/html"}
-	{format, type, name} = rq.params
-
-	widget = resolve process.cwd(), 'widgets', format, type, 'template.marko'
-	view  = require widget
-	view.render
-		name: name
-		title: "Widget: #{name}"
-		format: format
-		type: type
-		tableTeamData: ['VBlock', 'DBA', 'Tools', 'UNIX', 'Wintel', 'BFS', 'CAF']
-	, rs
-
-# Serve JS, CSS, and JSON
-server.get '/script', (args...) -> routes.utils.serveJS args
-server.get '/style', (args...) -> routes.utils.serveCSS args
+# Serve data
 server.get '/data/:name', (args...) -> routes.utils.serveJSON args
 
 # Adapter setup here
@@ -98,5 +62,5 @@ server.on 'after', (req, res, route, error) ->
 # Run the server under an active domain
 d.run ->
 	# Log when the web server starts up
-	server.listen 80, -> console.log "#{server.name}[#{process.pid}] online: #{server.url}"
+	server.listen 8000, -> console.log "#{server.name}[#{process.pid}] online: #{server.url}"
 	console.log "#{server.name} is starting..."

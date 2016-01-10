@@ -12,18 +12,21 @@ module.exports = (data, projection, duration) ->
 		.style 'stroke-width', 9
 		.style 'fill', 'none'
 	.transition()
-		.ease 'linear'
-		.duration 100
+		#.ease 'linear'
+		.duration 500
 		.attr 'r', 2
-		.attr 'opacity', 1
+		.attr 'opacity', 0.8
 		.style 'stroke-width', 8
-		.delay (a) -> duration*(180+a[0])/360
+		.style 'stroke', 'brown'
+		.style 'fill', 'brown'
+		#.delay (a) -> duration*(180+a[0])/360
 		.each 'end', ->
 			d3.select(this).transition()
 			.ease 'linear'
-			.duration 1000
-			.attr 'r', 40
+			.duration 500
+			.delay (a) -> Math.random() * duration
+			.attr 'r', 0
 			.attr 'opacity', 0
-			.style 'stroke', 'brown'
+			#.style 'stroke', 'brown'
 			.style 'stroke-width', 0
 			.remove()

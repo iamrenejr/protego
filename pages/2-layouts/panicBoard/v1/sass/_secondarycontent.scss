@@ -1,0 +1,12 @@
+.secondarycontent {
+	@include span-columns(5 of 12);
+	@include size (null 80%);
+}
+
+.panicTickers {
+	@include size(null 50%);
+}
+
+.panicGraphs {
+	@include size(null 50%);
+}

@@ -1,0 +1,15 @@
+.header {
+	font-size: 1.5em;
+	text-transform: uppercase;
+}
+
+.logo {
+	@include span-columns(1 of 12);
+	@include size(null 100%);
+}
+
+.title {
+	@include span-columns(5 of 12);	
+	@include size(null 100%);
+	margin-top: 1%;
+}

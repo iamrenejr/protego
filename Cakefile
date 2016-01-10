@@ -39,31 +39,31 @@ task 'docs', 'Create documentation for the source code', ->
 		console.log error
 
 task 'style', 'Compile SCSS into CSS', ->
+	console.log 'Compiling SCSS files...'
 	sass_cmd = "sass -r sass-globbing styles.scss ../styles.css"
 	globby ['**/styles.scss']
 	.then (paths) ->
 		for path in paths
 			sass_dir = dirname path
-			exec sass_cmd, cwd: sass_dir
+			console.log "SCSS to CSS: #{path}"
+			exec sass_cmd, cwd: sass_dir, (error) -> throw error if error?
 
 task 'script', 'Compile Coffeescript into JS', ->
-	browserify_cmd = "browserify -t coffeeify -o "
-	globby ['pages/**/*.coffee', '!*/0-vendor/**', '!**/index.coffee']
+	console.log 'Compiling CoffeeScript files...'
+	browserify_cmd = 'browserify -t coffeeify --extension=".coffee" -o '
+	globby ['pages/**/index.coffee', '!*/0-vendor/**']
 	.then (paths) ->
-		mapped = paths.map (path) -> resolve path, '../..'
-		zipped = mapped.zip paths
-		groups = zipped.groupBy (item) -> item[0]
-		finale = {}
-		for item of groups
-			finale[item] = []
-			finale[item].push group[1] for group in groups[item]
-		for item of finale
+		for path in paths
 			run = browserify_cmd
-			.concat "#{item}#{sep}index.js "
-			.concat finale[item].join ' '
-			exec run
+			.concat resolve path, '../..'
+			.concat "#{sep}index.js "
+			.concat path
+			console.log "Coffee to JS: #{path}"
+			exec run, (error) -> throw error if error?
 
 task 'minify', 'Minify all index.js and styles.css files', ->
+	console.log 'Minifying all index.js and styles.css files'
+
 	minifyjs_cmd = 'minify index.js'
 	globby ['pages/**/index.js']
 	.then (paths) -> exec minifyjs_cmd, cwd: dirname path for path in paths
@@ -75,7 +75,6 @@ task 'minify', 'Minify all index.js and styles.css files', ->
 task 'build', 'Compile CSS and JS at the same time', ->
 	invoke 'style'
 	invoke 'script'
-	(-> invoke 'minify').delay 5000
 
 task 'test', 'Run unit tests with Mocha, Chai, and Zombie', ->
 	console.log 'Not yet implemented'

@@ -1,0 +1,12 @@
+.primarycontent {
+	@include span-columns(7 of 12);
+	@include size(null 80%);
+}
+
+.panicMap {
+	@include size(null 60%);
+}
+
+.panicAssets {
+	@include size(null 40%);
+}

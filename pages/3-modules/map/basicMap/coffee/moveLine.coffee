@@ -8,7 +8,7 @@ module.exports = (parentId, duration) ->
 		.append 'line'
 		.attr 'x1', x
 		.attr 'x2', x
-		.attr 'y2', 0
+		.attr 'y2', y
 		.attr 'y1', y + height
 		.style 'stroke-width', 4
 	.transition()

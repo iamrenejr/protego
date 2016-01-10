@@ -1,0 +1,30 @@
+@import "mixins";
+
+* {
+	cursor: crosshair;
+}
+
+html {
+	@include padding(0);
+	@include margin(0);
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	@include padding(0);
+	@include margin(0);
+	@include outer-container;
+}
+
+section {
+	@include span-columns(12);
+	@include omega();
+}
+
+iframe {
+	@include size(100%);
+	@include padding(0);
+	@include margin(0);
+	border: 0;
+}

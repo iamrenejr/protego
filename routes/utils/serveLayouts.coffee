@@ -4,8 +4,15 @@ fs = require 'fs'
 serve = (obj) ->
 	{rs, statusCode, contentType, content, layout, version} = obj
 	rs.writeHead statusCode, {"Content-Type": contentType}
-	file = fs.createReadStream resolve 'pages', '2-layouts', layout, version, content
+	file = fs.createReadStream resolve 'pages', '2-layouts', layout, version, 'build', content
 	file.pipe rs
+
+stream = (obj) ->
+	{rs, statusCode, contentType, content, layout, version} = obj
+	rs.writeHead statusCode, {"Content-Type": contentType}
+	template = resolve 'pages', '2-layouts', layout, version, 'marko', content
+	view  = require template
+	view.render {}, rs
 
 module.exports = ([rq, rs, nx]) ->
 	{name, ver, type} = rq.params
@@ -23,6 +30,13 @@ module.exports = ([rq, rs, nx]) ->
 			statusCode: 200
 			contentType: 'application/javascript'
 			content: 'index.min.js'
+			layout: name
+			version: ver
+		when 'html' then stream
+			rs: rs
+			statusCode: 200
+			contentType: 'text/html'
+			content: 'template.marko'
 			layout: name
 			version: ver
 		else

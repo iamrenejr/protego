@@ -1,0 +1,1 @@
+widget = new Widget 'names'

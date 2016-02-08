@@ -1,0 +1,25 @@
+.header {
+	@include position(relative, null null null null);
+	@include size(null 10%);
+}
+
+.wall-of-counters {
+	@include position(relative, null null null null);
+	@include size(null 85%);
+}
+
+.row {
+	@include position(relative, null null null null);
+	@include size(null 20%);
+	overflow: auto;
+}
+
+.cell {
+	@include position(relative, null null null null);
+	@include size(90%);
+}
+
+.footer {
+	@include position(absolute, 90% null 0 null);
+	@include size(null 5%);
+}

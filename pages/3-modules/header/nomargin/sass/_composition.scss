@@ -1,0 +1,11 @@
+.header {
+	@include fill-parent();
+	@include row(table);
+
+	&.title {
+		@include reset-display;
+		@include pad();
+		@include padding(0);
+		@include position(absolute, null null null null);
+	}
+}

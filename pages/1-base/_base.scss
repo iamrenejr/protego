@@ -17,6 +17,10 @@ body {
 	@include outer-container;
 }
 
+#activePage {
+	@include size(null 100vh);
+}
+
 section {
 	@include span-columns(12);
 	@include omega();

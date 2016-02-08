@@ -1,0 +1,44 @@
+span > .box {
+	//@include padding(5%);
+	//@include margin(5%);
+}
+
+.box {
+	@include span-columns(3);
+	@include size(null 100%);
+	@include position(relative, null null null null);
+
+	&.header {
+		@include size(100% 20%);
+		@include padding(0.8% null null null);
+		@include position(absolute, 0 null 80% null);
+	}
+
+	&.data {
+		@include size(100% 60%);
+		@include position(relative, 20% null 20% null);
+	}
+
+	&.footer {
+		@include size(100% 20%);
+		@include padding(1% null null null);
+		@include position(absolute, 80% null 0 null);
+	}
+}
+
+.box.data {
+	&.count {
+		@include size(null 70%);
+		@include padding(1% null null null);
+		@include position(absolute, 0 null 30% null);
+		font-weight: 900;
+		font-size: 4em;
+	}
+
+	&.label {
+		@include size(null 30%);
+		@include position(absolute, 70% null 0 null);
+		font-weight: bold;
+		font-size: 1.3em;
+	}
+}

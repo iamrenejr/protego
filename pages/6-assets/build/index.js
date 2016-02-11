@@ -44080,14 +44080,14 @@ classes.Dashboard = (function() {
   Dashboard.prototype.widgets = [];
 
   function Dashboard(arg) {
-    var data, format, i, layout, len, name, ref, target, widgets;
+    var data, format, i, layout, len, name, options, ref, target, widgets;
     this.title = arg.title, layout = arg.layout, widgets = arg.widgets;
     this.unload = bind(this.unload, this);
     this.load = bind(this.load, this);
     this.layout = new Layout(layout.name, layout.version);
     for (i = 0, len = widgets.length; i < len; i++) {
-      ref = widgets[i], name = ref.name, format = ref.format, data = ref.data, target = ref.target;
-      this.widgets.push(new Widgets(name, format, target, data));
+      ref = widgets[i], name = ref.name, format = ref.format, target = ref.target, options = ref.options, data = ref.data;
+      this.widgets.push(new Widgets(name, format, target, options, data));
     }
   }
 
@@ -44185,40 +44185,47 @@ url = protocol + "//" + host + ":7777";
 classes.Widgets = (function(superClass) {
   extend(Widgets, superClass);
 
-  function Widgets(_name, _format, _target, _data) {
+  function Widgets(_name, _format, _target, _opts, _data) {
     this._name = _name;
     this._format = _format;
     this._target = _target;
+    this._opts = _opts != null ? _opts : {};
     this._data = _data != null ? _data : false;
     this.unload = bind(this.unload, this);
     this.load = bind(this.load, this);
     this._render = bind(this._render, this);
   }
 
+  Widgets.prototype._factory = function() {
+    return console.log('Replace this');
+  };
+
   Widgets.prototype._render = function(data) {
-    return this._factory(this._target, data);
+    return this._factory(this._target, this._opts, data);
   };
 
   Widgets.prototype._listener = true;
 
   Widgets.prototype.load = function() {
     this._loadCSS(this._name + "_" + this._format + "_widgetCSS", "/widgets/" + this._format + "/" + this._name + "/css");
-    this._loadHTML("#widget_" + this._target, "/widgets/" + this._format + "/" + this._name + "/html");
-    if (!!this._data) {
-      $.getScript("/widgets/" + this._format + "/" + this._name + "/js", (function(_this) {
-        return function(js) {
-          _this._factory = eval(js);
-          return $.get(dataUrl + "/resource/1/dataView/" + _this._data, function(data) {
-            return _this._render(data);
+    this._loadHTML("#" + this._target, "/widgets/" + this._format + "/" + this._name + "/html");
+    return $.getScript("/widgets/" + this._format + "/" + this._name + "/js", (function(_this) {
+      return function(js) {
+        _this._factory = eval(js);
+        if (_this._data === 'false') {
+          return _this._render(null);
+        } else {
+          $.get(dataUrl + "/resource/1/dataView/" + _this._data, function(data) {
+            return _this._render;
           });
-        };
-      })(this));
-      if (!this._listener) {
-        sockets.dataSocket.on('new data delivery', this._render);
-        sockets.dataSocket.emit('subscribe to filter', this._data);
-      }
-      return this._listener = false;
-    }
+          if (!_this._listener) {
+            sockets.dataSocket.on('new data delivery', _this._render);
+            sockets.dataSocket.emit('subscribe to filter', _this._data);
+          }
+          return _this._listener = false;
+        }
+      };
+    })(this));
   };
 
   Widgets.prototype.unload = function() {
@@ -44280,12 +44287,10 @@ dashboards = {};
 
 $(function() {
   sockets.ownSocket.on('render world object', function(world) {
-    console.log(world);
-    dashboards[world.title] = new window.protegoNS.classes.Dashboard(world);
-    return (function() {
-      console.log('Loading dashboard');
-      return dashboards[world.title].load();
-    }).delay(20);
+    if (dashboards[world.title] == null) {
+      dashboards[world.title] = new window.protegoNS.classes.Dashboard(world);
+    }
+    return dashboards[world.title].load();
   });
   return sockets.ownSocket.emit('request landing world object');
 });

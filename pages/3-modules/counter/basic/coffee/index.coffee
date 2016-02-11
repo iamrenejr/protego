@@ -1,6 +1,3 @@
-return (target, data) =>
-	dom = $ "#widget_#{target} > .box"
-	dom.children('.box.header').html 'Unassigned'
-	dom.children('.box.footer').html 'V-2201'
-	dom.find('.box.data.count').html '90'
-	dom.find('.box.data.label').html 'tickets'
+return (target, opts, data) =>
+	dom = $ "##{target} > .box"
+	dom.find(item.key).html item.value for item in opts

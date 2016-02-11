@@ -1,12 +1,12 @@
-span > .box {
-	//@include padding(5%);
-	//@include margin(5%);
+.cell > .box {
+	//@include margin(0.5%);
 }
 
 .box {
 	@include span-columns(3);
 	@include size(null 100%);
 	@include position(relative, null null null null);
+	@include margin(0);
 
 	&.header {
 		@include size(100% 20%);

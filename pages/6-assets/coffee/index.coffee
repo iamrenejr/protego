@@ -26,12 +26,9 @@ dashboards = {}
 
 $ ->
 	sockets.ownSocket.on 'render world object', (world) ->
-		console.log world
-		dashboards[world.title] = new window.protegoNS.classes.Dashboard world
-		(->
-			console.log 'Loading dashboard'
-			dashboards[world.title].load()
-		).delay 20 # Allow 20ms of instantiation
+		unless dashboards[world.title]?
+			dashboards[world.title] = new window.protegoNS.classes.Dashboard world
+		dashboards[world.title].load()
 
 	sockets.ownSocket.emit 'request landing world object'
 

@@ -11,7 +11,6 @@
 .row {
 	@include position(relative, null null null null);
 	@include size(null 20%);
-	overflow: auto;
 }
 
 .cell {

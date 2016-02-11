@@ -605,7 +605,7 @@ iframe {
     font-size: 0.9em; }
   .box.data.label {
     font-size: 0.8em; } }
-span > .box {
+.cell > .box {
   background-color: #0C7431;
   color: white; }
 
@@ -615,7 +615,8 @@ span > .box {
   margin-right: 0.45365%;
   width: 24.65976%;
   height: 100%;
-  position: relative; }
+  position: relative;
+  margin: 0; }
   .box:last-child {
     margin-right: 0; }
   .box.header {
@@ -655,7 +656,7 @@ span > .box {
   font-weight: bold;
   font-size: 1.3em; }
 
-span > .box {
+.cell > .box {
   border: 1px solid black;
   overflow: hidden; }
 

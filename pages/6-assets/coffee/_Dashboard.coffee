@@ -7,7 +7,7 @@ class classes.Dashboard
 
 	constructor: ({@title, layout, widgets}) ->
 		@layout = new Layout layout.name, layout.version
-		@widgets.push new Widgets name, format, target, data for {name, format, data, target} in widgets
+		@widgets.push new Widgets name, format, target, options, data for {name, format, target, options, data} in widgets
 
 	load: =>
 		$('title').html @title

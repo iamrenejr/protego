@@ -1,3 +1,3 @@
-return (target, data) ->
-	dom = $ "#widget_#{target} > .header"
-	dom.find('.title').html 'Security Operations'
+return (target, opts, data) ->
+	dom = $ "##{target} > .header"
+	dom.find(item.key).html item.value for item in opts

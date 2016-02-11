@@ -35,7 +35,7 @@ module.exports = ([rq, rs, nx]) ->
 		when 'html' then stream
 			rs: rs
 			statusCode: 200
-			contentType: 'text/html'
+			contentType: 'text/html; charset=utf-8'
 			content: 'template.marko'
 			layout: name
 			version: ver

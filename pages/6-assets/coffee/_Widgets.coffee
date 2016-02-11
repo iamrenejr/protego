@@ -14,23 +14,25 @@ host = window.location.hostname
 url = "#{protocol}//#{host}:7777"
 
 class classes.Widgets extends Parent
-	constructor: (@_name, @_format, @_target, @_data=false) ->
-	_render: (data) => @_factory @_target, data
+	constructor: (@_name, @_format, @_target, @_opts={}, @_data=false) ->
+	_factory: -> console.log 'Replace this'
+	_render: (data) => @_factory @_target, @_opts, data
 	_listener: true
 
 	load: =>
 		@_loadCSS "#{@_name}_#{@_format}_widgetCSS", "/widgets/#{@_format}/#{@_name}/css"
-		@_loadHTML "#widget_#{@_target}", "/widgets/#{@_format}/#{@_name}/html"
+		@_loadHTML "##{@_target}", "/widgets/#{@_format}/#{@_name}/html"
 
-		unless !@_data
-			$.getScript "/widgets/#{@_format}/#{@_name}/js", (js) =>
-				@_factory = eval js # have to live with eval for now
-				$.get "#{dataUrl}/resource/1/dataView/#{@_data}", (data) =>
-					@_render data
-			unless @_listener
-				sockets.dataSocket.on 'new data delivery', @_render
-				sockets.dataSocket.emit 'subscribe to filter', @_data
-			@_listener = false
+		$.getScript "/widgets/#{@_format}/#{@_name}/js", (js) =>
+			@_factory = eval js # have to live with eval for now
+			if @_data == 'false'
+				@_render null
+			else
+				$.get "#{dataUrl}/resource/1/dataView/#{@_data}", (data) => @_render
+				unless @_listener
+					sockets.dataSocket.on 'new data delivery', @_render
+					sockets.dataSocket.emit 'subscribe to filter', @_data
+				@_listener = false
 
 	unload: =>
 		sockets.dataSocket.removeListener 'new data delivery', @_render

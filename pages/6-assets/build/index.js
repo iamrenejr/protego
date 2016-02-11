@@ -44204,7 +44204,7 @@ classes.Widgets = (function(superClass) {
     return this._factory(this._target, this._opts, data);
   };
 
-  Widgets.prototype._listener = true;
+  Widgets.prototype._listener = false;
 
   Widgets.prototype.load = function() {
     this._loadCSS(this._name + "_" + this._format + "_widgetCSS", "/widgets/" + this._format + "/" + this._name + "/css");
@@ -44212,17 +44212,27 @@ classes.Widgets = (function(superClass) {
     return $.getScript("/widgets/" + this._format + "/" + this._name + "/js", (function(_this) {
       return function(js) {
         _this._factory = eval(js);
-        if (_this._data === 'false') {
+        if (_this._data === 'false' || _this._data === false) {
           return _this._render(null);
         } else {
+          console.log(dataUrl + "/resource/1/dataView/" + _this._data);
+          console.log(_this._listener);
           $.get(dataUrl + "/resource/1/dataView/" + _this._data, function(data) {
-            return _this._render;
+            console.log('------$.get------');
+            console.log(data);
+            return _this._render(data);
           });
+          console.log(_this._listener);
           if (!_this._listener) {
-            sockets.dataSocket.on('new data delivery', _this._render);
+            console.log('listener');
+            sockets.dataSocket.on('new data delivery', function(data) {
+              console.log('------SocketIO------');
+              console.log(data);
+              return _this._render(data);
+            });
             sockets.dataSocket.emit('subscribe to filter', _this._data);
           }
-          return _this._listener = false;
+          return _this._listener = true;
         }
       };
     })(this));

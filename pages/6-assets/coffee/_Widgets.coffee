@@ -17,7 +17,7 @@ class classes.Widgets extends Parent
 	constructor: (@_name, @_format, @_target, @_opts={}, @_data=false) ->
 	_factory: -> console.log 'Replace this'
 	_render: (data) => @_factory @_target, @_opts, data
-	_listener: true
+	_listener: false
 
 	load: =>
 		@_loadCSS "#{@_name}_#{@_format}_widgetCSS", "/widgets/#{@_format}/#{@_name}/css"
@@ -25,14 +25,24 @@ class classes.Widgets extends Parent
 
 		$.getScript "/widgets/#{@_format}/#{@_name}/js", (js) =>
 			@_factory = eval js # have to live with eval for now
-			if @_data == 'false'
+			if @_data == 'false' or @_data == false
 				@_render null
 			else
-				$.get "#{dataUrl}/resource/1/dataView/#{@_data}", (data) => @_render
+				console.log "#{dataUrl}/resource/1/dataView/#{@_data}"
+				console.log @_listener
+				$.get "#{dataUrl}/resource/1/dataView/#{@_data}", (data) =>
+					console.log '------$.get------'
+					console.log data
+					@_render data
+				console.log @_listener
 				unless @_listener
-					sockets.dataSocket.on 'new data delivery', @_render
+					console.log 'listener'
+					sockets.dataSocket.on 'new data delivery', (data) =>
+						console.log '------SocketIO------'
+						console.log data
+						@_render data
 					sockets.dataSocket.emit 'subscribe to filter', @_data
-				@_listener = false
+				@_listener = true
 
 	unload: =>
 		sockets.dataSocket.removeListener 'new data delivery', @_render

@@ -2,14 +2,19 @@
 (function() {
   return (function(_this) {
     return function(target, opts, data) {
-      var dom, i, item, len, results;
+      var dom, i, item, len;
+      if (typeof data === 'string') {
+        data = JSON.parse(data);
+      }
       dom = $("#" + target + " > .box");
-      results = [];
       for (i = 0, len = opts.length; i < len; i++) {
         item = opts[i];
-        results.push(dom.find(item.key).html(item.value));
+        dom.find(item.key).html(item.value);
       }
-      return results;
+      if (data) {
+        dom.find('.data-slot').html(data.Result.$value);
+      }
+      return console.log(data);
     };
   })(this);
 
